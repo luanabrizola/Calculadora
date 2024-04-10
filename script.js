@@ -47,17 +47,17 @@ btnIgual.addEventListener("click", () => {
 //       });
 // }
 
-for(let btn of btnBotoes){
-    btn.addEventListener("click", () => {
-        adicionaNumero(calculadora, btn.innerText);
-     });
+for (let btn of btnBotoes) {
+  btn.addEventListener("click", () => {
+    adicionaNumero(calculadora, btn.innerText);
+  });
 }
 
 // Botões dos operadores
-for(let btn of btnOperacoes){
-    btn.addEventListener("click", () => {
-       escolheOperador(calculadora, btn.innerText);
-    });
+for (let btn of btnOperacoes) {
+  btn.addEventListener("click", () => {
+    escolheOperador(calculadora, btn.innerText);
+  });
 }
 
 /****************************************************************
@@ -70,14 +70,19 @@ for(let btn of btnOperacoes){
  *  O elemento display é atualizado com o atributo operandoAtual
  */
 function atualizaDisplay(calculadora) {
-    calculadora.bufferTextoElemento.innerText = calculadora.operandoAnterior
-    calculadora.displayTextoElemento.innerText = calculadora.operandoAtual
+  calculadora.bufferTextoElemento.innerText = calculadora.operandoAnterior
+  calculadora.displayTextoElemento.innerText = calculadora.operandoAtual
 }
 
 /* Limpa os atributos do objeto calculadora e atualiza o display.
  * Para atualizar o dispay, chame a função responsável por isso.
  */
-function limpaVariaveis(calculadora) {}
+function limpaVariaveis(calculadora) { 
+  calculadora.operandoAnterior=""
+  calculadora.operandoAtual=""
+  calculadora.operador=""
+  atualizaDisplay(calculadora)
+}
 
 /* Função chamada quando um botão de número é pressionado
  * A função recebe o objeto calculadora e o número a ser exibido no display.
@@ -85,8 +90,8 @@ function limpaVariaveis(calculadora) {}
  * O dígito "." deve receber um tratamento especial
  */
 function adicionaNumero(calculadora, numero) {
-    calculadora.operandoAtual = calculadora.operandoAtual + numero
-    atualizaDisplay(calculadora)
+  calculadora.operandoAtual = calculadora.operandoAtual + numero
+  atualizaDisplay(calculadora)
 }
 
 /* Função chamada quando um botão de operador é pressionado
@@ -98,11 +103,11 @@ function adicionaNumero(calculadora, numero) {
  * - copiar operandoAtual para o operandoAnterior, deixando a calculadora preparada para receber o próximo número
  */
 function escolheOperador(calculadora, operador) {
-    calculadora.operandoAnterior = calculadora.operandoAtual
-    calculadora.operandoAtual = ""
-    calculadora.operador = operador
-    atualizaDisplay(calculadora) 
-    
+  calculadora.operandoAnterior = calculadora.operandoAtual
+  calculadora.operandoAtual = ""
+  calculadora.operador = operador
+  atualizaDisplay(calculadora)
+
 }
 
 /* A função recebe o objeto calculadora e executa o calculo
@@ -111,9 +116,32 @@ function escolheOperador(calculadora, operador) {
  * - Atualizar os atributos operador, operandoAnterior e operandoAtual
  * - Atualizar o display
  */
-function executaCalculo(calculadora) {}
+function executarCalculo(calculadora) {
+  let operador = calculadora.operador;
+  let operandoAnterior = parseFloat(calculadora.operandoAnterior);
+  let operandoAtual = parseFloat(calculadora.operandoAtual);
+  let resultado;
 
-/* Função chamada quando o botão delete for pressionado
- * Apaga o último dígito digitado no
- */
-function apagaDigito(calculadora) {}
+  if (operador == "+") {
+    resultado = operandoAnterior + operandoAtual;
+  }
+  else if (operador == "-") {
+    resultado = operandoAnterior - operandoAtual;
+  }
+  else if (operador == "+") {
+    resultado = operandoAnterior * operandoAtual;
+  }
+  else if (operador == "÷") {
+    resultado = operandoAnterior / operandoAtual;
+  } else{
+    return resultado
+  }
+  atualizaDisplay(calculadora)
+}
+
+
+
+  /* Função chamada quando o botão delete for pressionado
+   * Apaga o último dígito digitado no
+   */
+  function apagaDigito(calculadora) {}
