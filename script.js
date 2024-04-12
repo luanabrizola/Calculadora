@@ -70,8 +70,8 @@ for (let btn of btnOperacoes) {
  *  O elemento display é atualizado com o atributo operandoAtual
  */
 function atualizaDisplay(calculadora) {
-  calculadora.bufferTextoElemento.innerText = calculadora.operandoAnterior
-  calculadora.displayTextoElemento.innerText = calculadora.operandoAtual
+  calculadora.bufferTextoElemento.innerText = calculadora.operandoAnterior + calculadora.operador
+  calculadora.displayTextoElemento.innerText = calculadora.operandoAtual 
 }
 
 /* Limpa os atributos do objeto calculadora e atualiza o display.
@@ -90,6 +90,8 @@ function limpaVariaveis(calculadora) {
  * O dígito "." deve receber um tratamento especial
  */
 function adicionaNumero(calculadora, numero) {
+  
+  if (numero==="." && calculadora.operandoAtual.includes(".")) return;  
   calculadora.operandoAtual = calculadora.operandoAtual + numero
   atualizaDisplay(calculadora)
 }
@@ -116,26 +118,28 @@ function escolheOperador(calculadora, operador) {
  * - Atualizar os atributos operador, operandoAnterior e operandoAtual
  * - Atualizar o display
  */
-function executarCalculo(calculadora) {
-  let operador = calculadora.operador;
-  let operandoAnterior = parseFloat(calculadora.operandoAnterior);
-  let operandoAtual = parseFloat(calculadora.operandoAtual);
-  let resultado;
+function executaCalculo(calculadora) {
+  var operador = calculadora.operador;
+  var operandoAnterior = parseFloat(calculadora.operandoAnterior);
+  var operandoAtual = parseFloat(calculadora.operandoAtual);
+  var resultado;
+  
+  if (operador === "+") {
+    resultado = operandoAnterior + operandoAtual
+  }
+  else if (operador === "-") {
+    resultado = operandoAnterior - operandoAtual
+  }
+  else if (operador === "*") {
+    resultado = operandoAnterior * operandoAtual
+  }
+  else if (operador === "÷") {
+    resultado = operandoAnterior / operandoAtual
+  }
 
-  if (operador == "+") {
-    resultado = operandoAnterior + operandoAtual;
-  }
-  else if (operador == "-") {
-    resultado = operandoAnterior - operandoAtual;
-  }
-  else if (operador == "+") {
-    resultado = operandoAnterior * operandoAtual;
-  }
-  else if (operador == "÷") {
-    resultado = operandoAnterior / operandoAtual;
-  } else{
-    return resultado
-  }
+  calculadora.operandoAtual = resultado.toString()
+  calculadora.operandoAnterior = ""
+  calculadora.operador = ""
   atualizaDisplay(calculadora)
 }
 
@@ -144,4 +148,9 @@ function executarCalculo(calculadora) {
   /* Função chamada quando o botão delete for pressionado
    * Apaga o último dígito digitado no
    */
-  function apagaDigito(calculadora) {}
+  function apagaDigito(calculadora) {
+    calculadora.operandoAtual=calculadora.operandoAtual.slice(0, -1)
+    atualizaDisplay(calculadora)
+  }
+    
+  
